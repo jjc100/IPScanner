@@ -1,6 +1,6 @@
 [package]
 name = "ipscanner"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 build = "build.rs"
 description = "A desktop IP scanner for Windows and macOS with multilingual UI, hostname lookup, and CSV/XLSX export."

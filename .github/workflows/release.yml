@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  release:
+    types:
+      - published
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact_name: IPScanner-windows-x64.zip
+            binary_path: target\release\IPScanner.exe
+            package_command: |
+              Compress-Archive -Path target\release\IPScanner.exe -DestinationPath IPScanner-windows-x64.zip
+          - os: macos-latest
+            artifact_name: IPScanner-macos-universal.tar.gz
+            binary_path: target/release/IPScanner
+            package_command: |
+              chmod +x target/release/IPScanner
+              tar -czf IPScanner-macos-universal.tar.gz -C target/release IPScanner
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo artifacts
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build release binary
+        run: cargo build --release --locked
+
+      - name: Package release asset
+        shell: pwsh
+        run: ${{ matrix.package_command }}
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_name }}
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'release'
+
+    steps:
+      - name: Download packaged artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+
+      - name: Publish release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name || github.ref_name }}
+          files: |
+            release-assets/IPScanner-windows-x64.zip/IPScanner-windows-x64.zip
+            release-assets/IPScanner-macos-universal.tar.gz/IPScanner-macos-universal.tar.gz
+          fail_on_unmatched_files: true

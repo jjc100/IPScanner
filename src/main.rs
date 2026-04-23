@@ -350,6 +350,10 @@ fn load_system_ui_fonts() -> Vec<(String, Vec<u8>)> {
 #[cfg(windows)]
 fn system_ui_font_candidates() -> &'static [(&'static str, &'static str)] {
     &[
+        ("microsoft-yahei", r"C:\Windows\Fonts\msyh.ttc"),
+        ("microsoft-yahei-bold", r"C:\Windows\Fonts\msyhbd.ttc"),
+        ("simhei", r"C:\Windows\Fonts\simhei.ttf"),
+        ("simsun", r"C:\Windows\Fonts\simsun.ttc"),
         ("malgun", r"C:\Windows\Fonts\malgun.ttf"),
         ("malgun-light", r"C:\Windows\Fonts\malgunsl.ttf"),
         ("nanum-gothic", r"C:\Windows\Fonts\NanumGothic.ttf"),
@@ -513,12 +517,12 @@ impl Language {
 
     fn label(self) -> &'static str {
         match self {
-            Self::Korean => "한국어",
-            Self::English => "English",
-            Self::ChineseSimplified => "简体中文",
-            Self::French => "Français",
-            Self::German => "Deutsch",
-            Self::Hindi => "हिन्दी",
+            Self::Korean => "대한민국 · 한국어",
+            Self::English => "United States · English",
+            Self::ChineseSimplified => "中国 · 简体中文",
+            Self::French => "France · Français",
+            Self::German => "Deutschland · Deutsch",
+            Self::Hindi => "भारत · हिन्दी",
         }
     }
 
@@ -539,12 +543,12 @@ impl Language {
 
     fn language_label(self) -> &'static str {
         match self {
-            Self::Korean => "언어",
-            Self::English => "Language",
-            Self::ChineseSimplified => "语言",
-            Self::French => "Langue",
-            Self::German => "Sprache",
-            Self::Hindi => "भाषा",
+            Self::Korean => "국가 / 언어",
+            Self::English => "Country / language",
+            Self::ChineseSimplified => "国家 / 语言",
+            Self::French => "Pays / langue",
+            Self::German => "Land / Sprache",
+            Self::Hindi => "देश / भाषा",
         }
     }
 
@@ -2883,6 +2887,8 @@ mod tests {
         assert!(Language::all().contains(&Language::French));
         assert!(Language::all().contains(&Language::German));
         assert!(Language::all().contains(&Language::Hindi));
+        assert_eq!(Language::Korean.label(), "대한민국 · 한국어");
+        assert_eq!(Language::English.label(), "United States · English");
     }
 
     #[test]

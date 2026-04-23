@@ -72,6 +72,7 @@ cargo test
 **Release downloads**
 - Pushing a tag such as `v0.1.0` triggers GitHub Actions to build Windows and macOS artifacts.
 - Publishing a GitHub Release also runs the upload workflow.
+- You can also run the `Release` workflow manually and provide an existing tag to attach executable assets again.
 - End users can download ready-to-use builds directly from the Releases page.
 
 ### 中国 · 简体中文
@@ -249,6 +250,7 @@ cargo test
 
 - `v0.1.0` 같은 **태그를 push**하면 GitHub Actions가 Windows/macOS용 실행 파일을 빌드해서 Release 자산으로 업로드합니다.
 - GitHub에서 **Release를 publish**해도 같은 워크플로가 자산 업로드를 처리합니다.
+- 이미 만든 태그에도 **Actions > Release > Run workflow**로 다시 실행해 실행 파일 자산을 붙일 수 있습니다.
 - 사용자는 Releases 페이지에서 바로 내려받아 실행할 수 있습니다.
 
 ## GitHub에 올릴 때 포함되는 구성

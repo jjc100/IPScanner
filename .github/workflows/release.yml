@@ -8,6 +8,11 @@ on:
     types:
       - published
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: Existing tag to upload executable assets to
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -24,11 +29,11 @@ jobs:
             package_command: |
               Compress-Archive -Path target\release\IPScanner.exe -DestinationPath IPScanner-windows-x64.zip
           - os: macos-latest
-            artifact_name: IPScanner-macos-universal.tar.gz
+            artifact_name: IPScanner-macos.tar.gz
             binary_path: target/release/IPScanner
             package_command: |
               chmod +x target/release/IPScanner
-              tar -czf IPScanner-macos-universal.tar.gz -C target/release IPScanner
+              tar -czf IPScanner-macos.tar.gz -C target/release IPScanner
 
     runs-on: ${{ matrix.os }}
 
@@ -58,7 +63,9 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'release'
+    if: github.event_name == 'push' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag_name || github.ref_name }}
 
     steps:
       - name: Download packaged artifacts
@@ -69,8 +76,9 @@ jobs:
       - name: Publish release assets
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.release.tag_name || github.ref_name }}
+          tag_name: ${{ env.RELEASE_TAG }}
           files: |
             release-assets/IPScanner-windows-x64.zip/IPScanner-windows-x64.zip
-            release-assets/IPScanner-macos-universal.tar.gz/IPScanner-macos-universal.tar.gz
+            release-assets/IPScanner-macos.tar.gz/IPScanner-macos.tar.gz
           fail_on_unmatched_files: true
+          overwrite_files: true

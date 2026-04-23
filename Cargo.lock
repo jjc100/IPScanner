@@ -1201,27 +1201,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "faipscanner-clone"
-version = "0.1.0"
-dependencies = [
- "csv",
- "dns-lookup",
- "eframe",
- "egui",
- "egui_extras",
- "ipconfig",
- "ipnet",
- "once_cell",
- "pnet",
- "rayon",
- "regex",
- "rfd",
- "rust_xlsxwriter",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "fastrand"
 version = "2.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1737,6 +1716,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "if-addrs"
+version = "0.13.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "69b2eeee38fef3aa9b4cc5f1beea8a2444fc00e7377cafae396de3f5c2065e24"
+dependencies = [
+ "libc",
+ "windows-sys 0.59.0",
+]
+
+[[package]]
 name = "image"
 version = "0.25.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1797,6 +1786,29 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bf466541e9d546596ee94f9f69590f89473455f88372423e0008fc1a7daf100e"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "ipscanner"
+version = "0.1.0"
+dependencies = [
+ "csv",
+ "dns-lookup",
+ "eframe",
+ "egui",
+ "egui_extras",
+ "if-addrs",
+ "ipconfig",
+ "ipnet",
+ "once_cell",
+ "pnet",
+ "rayon",
+ "regex",
+ "rfd",
+ "rust_xlsxwriter",
+ "serde",
+ "serde_json",
+ "winres",
 ]
 
 [[package]]
@@ -3539,6 +3551,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "toml"
+version = "0.5.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f4f7f0dd8d50a853a531c426359045b1998f04219d88799810762cd4ad314234"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "toml_datetime"
 version = "1.1.1+spec-1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4476,6 +4497,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09dac053f1cd375980747450bfc7250c264eaae0583872e845c0c7cd578872b5"
 dependencies = [
  "memchr",
+]
+
+[[package]]
+name = "winres"
+version = "0.1.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b68db261ef59e9e52806f688020631e987592bd83619edccda9c47d42cde4f6c"
+dependencies = [
+ "toml",
 ]
 
 [[package]]

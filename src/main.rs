@@ -1,10 +1,13 @@
 #![cfg_attr(all(windows, not(debug_assertions)), windows_subsystem = "windows")]
 
+#[cfg(windows)]
 use std::cell::RefCell;
 use std::collections::{BTreeSet, HashMap};
+#[cfg(windows)]
 use std::ffi::c_void;
 use std::fs;
 use std::io::Write;
+#[cfg(windows)]
 use std::mem::size_of;
 use std::net::{IpAddr, Ipv4Addr};
 use std::path::{Path, PathBuf};
@@ -2093,12 +2096,13 @@ fn discover_range_presets() -> Vec<String> {
     presets.into_iter().collect()
 }
 
+#[cfg(windows)]
 fn collect_adapter_presets(adapter: &Adapter, presets: &mut BTreeSet<String>) {
     for ip in adapter.ip_addresses() {
-        let IpAddr::V4(ip) = ip else {
+        let IpAddr::V4(ip) = *ip else {
             continue;
         };
-        collect_ipv4_preset(*ip, presets);
+        collect_ipv4_preset(ip, presets);
     }
 }
 
